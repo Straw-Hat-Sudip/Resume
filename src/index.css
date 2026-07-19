@@ -514,3 +514,67 @@ input:focus, textarea:focus {
   color: #15803d;
   border: 1px solid #bbf7d0;
 }
+
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+  .app-container {
+    height: auto;
+    max-height: none;
+    overflow: auto;
+  }
+  
+  .main-content {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+  
+  .form-section {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow-y: visible;
+  }
+  
+  .preview-section {
+    width: 100%;
+    overflow-x: auto;
+    padding: 16px;
+  }
+
+  .preview-toolbar {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .resume-paper {
+    transform: scale(0.85);
+    transform-origin: top center;
+    margin-bottom: -150px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 0 16px;
+  }
+
+  .form-section {
+    padding: 16px;
+  }
+
+  .input-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .input-row .input-col {
+    margin-bottom: 16px;
+  }
+
+  .resume-paper {
+    transform: scale(0.45);
+    transform-origin: top center;
+    margin-bottom: -600px;
+  }
+}
