@@ -24,7 +24,13 @@ const AuthModal = ({ isOpen, onClose }) => {
         if (error) throw error;
         onClose(); // Close modal on successful login
       } else {
-        const { error } = await supabase.auth.signUp({ email, password });
+        const { error } = await supabase.auth.signUp({ 
+          email, 
+          password,
+          options: {
+            emailRedirectTo: window.location.origin
+          }
+        });
         if (error) throw error;
         setMessage('Verification link was sent to your email! Please check your inbox and confirm before signing in.');
         setIsLogin(true); // Switch to login view

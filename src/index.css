@@ -200,8 +200,8 @@ input:focus, textarea:focus {
 
 /* Resume Paper */
 .resume-paper {
-  width: 100%;
-  max-width: 800px;
+  width: 800px;
+  min-width: 800px;
   min-height: 1131px; /* A4 Ratio */
   background: white;
   box-shadow: var(--shadow-lg);
@@ -702,19 +702,15 @@ input:focus, textarea:focus {
   
   .preview-section {
     width: 100%;
-    overflow-x: auto;
-    padding: 16px;
+    overflow-x: hidden;
+    padding: 16px 8px;
+    align-items: center;
   }
 
   .preview-toolbar {
     flex-direction: column;
     gap: 16px;
-  }
-
-  .resume-paper {
-    transform: scale(0.85);
-    transform-origin: top center;
-    margin-bottom: -150px;
+    padding: 16px;
   }
 }
 
@@ -736,9 +732,19 @@ input:focus, textarea:focus {
     margin-bottom: 16px;
   }
 
-  .resume-paper {
-    transform: scale(0.45);
-    transform-origin: top center;
-    margin-bottom: -600px;
+  .preview-section {
+    padding: 12px 4px;
+  }
+
+  .preview-toolbar {
+    padding: 12px;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .template-selector {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
   }
 }
