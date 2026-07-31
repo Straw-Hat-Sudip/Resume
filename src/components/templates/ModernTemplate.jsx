@@ -1,5 +1,19 @@
 import React from 'react';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe } from 'lucide-react';
+
+const LinkedInIcon = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+  </svg>
+);
+
+const GitHubIcon = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+  </svg>
+);
 
 const ModernTemplate = ({ data, templateRef }) => {
   return (
@@ -28,6 +42,24 @@ const ModernTemplate = ({ data, templateRef }) => {
               <span>{data.personal.address}</span>
             </div>
           )}
+          {data.personal.linkedin && (
+            <div className="contact-item">
+              <LinkedInIcon size={16} />
+              <span>{data.personal.linkedin}</span>
+            </div>
+          )}
+          {data.personal.github && (
+            <div className="contact-item">
+              <GitHubIcon size={16} />
+              <span>{data.personal.github}</span>
+            </div>
+          )}
+          {data.personal.website && (
+            <div className="contact-item">
+              <Globe size={16} />
+              <span>{data.personal.website}</span>
+            </div>
+          )}
 
           {data.skills.length > 0 && data.skills[0] !== "" && (
             <div>
@@ -51,7 +83,7 @@ const ModernTemplate = ({ data, templateRef }) => {
 
           {data.experience.length > 0 && (
             <div>
-              <h2>Experience</h2>
+              <h2>Projects</h2>
               {data.experience.map((exp, index) => (
                 <div key={index} className="item">
                   <div className="item-header-row">
@@ -59,6 +91,11 @@ const ModernTemplate = ({ data, templateRef }) => {
                     <span className="item-date">{exp.startDate} - {exp.endDate}</span>
                   </div>
                   <div className="item-subtitle">{exp.company}</div>
+                  {exp.technologies && (
+                    <div style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 500, margin: '2px 0 6px 0' }}>
+                      Technologies: {exp.technologies}
+                    </div>
+                  )}
                   <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>{exp.description}</p>
                 </div>
               ))}

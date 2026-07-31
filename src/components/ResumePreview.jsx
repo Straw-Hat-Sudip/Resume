@@ -3,6 +3,7 @@ import html2pdf from 'html2pdf.js';
 import { Download, Lock } from 'lucide-react';
 import PlainTemplate from './templates/PlainTemplate';
 import ModernTemplate from './templates/ModernTemplate';
+import ClassicTemplate from './templates/ClassicTemplate';
 import AuthModal from './AuthModal';
 
 const ResumePreview = ({ resumeData, template, setTemplate, user }) => {
@@ -34,16 +35,22 @@ const ResumePreview = ({ resumeData, template, setTemplate, user }) => {
         <div className="template-selector">
           <span style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text-muted)' }}>Template:</span>
           <button 
-            className={`template-btn ${template === 'plain' ? 'active' : ''}`}
-            onClick={() => setTemplate('plain')}
+            className={`template-btn ${template === 'classic' ? 'active' : ''}`}
+            onClick={() => setTemplate('classic')}
           >
-            Plain
+            Classic Blue
           </button>
           <button 
             className={`template-btn ${template === 'modern' ? 'active' : ''}`}
             onClick={() => setTemplate('modern')}
           >
             Modern
+          </button>
+          <button 
+            className={`template-btn ${template === 'plain' ? 'active' : ''}`}
+            onClick={() => setTemplate('plain')}
+          >
+            Plain
           </button>
         </div>
         <button className="btn-primary" onClick={handleDownloadPDF}>
@@ -53,7 +60,9 @@ const ResumePreview = ({ resumeData, template, setTemplate, user }) => {
       </div>
 
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-        {template === 'plain' ? (
+        {template === 'classic' ? (
+          <ClassicTemplate data={resumeData} templateRef={resumeRef} />
+        ) : template === 'plain' ? (
           <PlainTemplate data={resumeData} templateRef={resumeRef} />
         ) : (
           <ModernTemplate data={resumeData} templateRef={resumeRef} />

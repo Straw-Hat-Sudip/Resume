@@ -83,9 +83,29 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
             <label>Address</label>
             <input 
               type="text" 
-              value={resumeData.personal.address} 
+              value={resumeData.personal.address || ''} 
               onChange={(e) => handleChange('personal', 'address', e.target.value)} 
-              placeholder="e.g. New York, NY"
+              placeholder="e.g. Singur, West Bengal, India"
+            />
+          </div>
+        </div>
+        <div className="input-row">
+          <div className="input-col">
+            <label>LinkedIn</label>
+            <input 
+              type="text" 
+              value={resumeData.personal.linkedin || ''} 
+              onChange={(e) => handleChange('personal', 'linkedin', e.target.value)} 
+              placeholder="e.g. linkedin.com/in/username"
+            />
+          </div>
+          <div className="input-col">
+            <label>GitHub</label>
+            <input 
+              type="text" 
+              value={resumeData.personal.github || ''} 
+              onChange={(e) => handleChange('personal', 'github', e.target.value)} 
+              placeholder="e.g. github.com/username"
             />
           </div>
         </div>
@@ -101,34 +121,43 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
       </div>
 
       <div className="form-group">
-        <h3>Experience</h3>
+        <h3>Projects</h3>
         {resumeData.experience.map((exp, index) => (
           <div key={index} className="dynamic-item">
             <div className="dynamic-item-header">
-              <span style={{fontWeight: 600}}>Experience {index + 1}</span>
+              <span style={{fontWeight: 600}}>Project {index + 1}</span>
               <button className="remove-btn" onClick={() => removeArrayItem('experience', index)}>
                 <Trash2 size={16} />
               </button>
             </div>
             <div className="input-row">
               <div className="input-col">
-                <label>Company Name</label>
+                <label>Project / Company Name</label>
                 <input 
                   type="text" 
                   value={exp.company} 
                   onChange={(e) => handleArrayChange('experience', index, 'company', e.target.value)} 
-                  placeholder="e.g. Google"
+                  placeholder="e.g. E-Commerce Web App"
                 />
               </div>
               <div className="input-col">
-                <label>Job Title</label>
+                <label>Role / Subtitle</label>
                 <input 
                   type="text" 
                   value={exp.title} 
                   onChange={(e) => handleArrayChange('experience', index, 'title', e.target.value)} 
-                  placeholder="e.g. Software Engineer"
+                  placeholder="e.g. Full-Stack Developer Project"
                 />
               </div>
+            </div>
+            <div className="input-col" style={{ marginBottom: '16px' }}>
+              <label>Technologies Used</label>
+              <input 
+                type="text" 
+                value={exp.technologies || ''} 
+                onChange={(e) => handleArrayChange('experience', index, 'technologies', e.target.value)} 
+                placeholder="e.g. React.js, Node.js, Express.js, MongoDB, JWT, CSS3"
+              />
             </div>
             <div className="input-row">
               <div className="input-col">
@@ -137,7 +166,7 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
                   type="text" 
                   value={exp.startDate} 
                   onChange={(e) => handleArrayChange('experience', index, 'startDate', e.target.value)} 
-                  placeholder="e.g. Jan 2020"
+                  placeholder="e.g. 2024"
                 />
               </div>
               <div className="input-col">
@@ -156,16 +185,16 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
                 rows="3" 
                 value={exp.description} 
                 onChange={(e) => handleArrayChange('experience', index, 'description', e.target.value)} 
-                placeholder="What did you do there?"
+                placeholder="Key highlights and achievements..."
               />
             </div>
           </div>
         ))}
         <button 
           className="add-btn" 
-          onClick={() => addArrayItem('experience', { company: '', title: '', startDate: '', endDate: '', description: '' })}
+          onClick={() => addArrayItem('experience', { company: '', title: '', technologies: '', startDate: '', endDate: '', description: '' })}
         >
-          <Plus size={18} /> Add Experience
+          <Plus size={18} /> Add Project
         </button>
       </div>
 
@@ -231,15 +260,64 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
 
       <div className="form-group">
         <h3>Skills</h3>
-        <div className="input-col">
-          <label>Skills (comma separated)</label>
-          <textarea 
-            rows="3" 
-            value={resumeData.skills.join(', ')} 
-            onChange={(e) => setResumeData(prev => ({ ...prev, skills: e.target.value.split(',').map(s => s.trim()) }))} 
-            placeholder="e.g. JavaScript, React, Node.js"
-          />
-        </div>
+        {resumeData.skills.map((skill, index) => {
+          let category = '';
+          let details = skill;
+          if (typeof skill === 'string' && skill.includes(':')) {
+            const colonIdx = skill.indexOf(':');
+            category = skill.substring(0, colonIdx).trim();
+            details = skill.substring(colonIdx + 1).trim();
+          }
+
+          const updateSkill = (newCat, newDet) => {
+            setResumeData(prev => {
+              const newSkills = [...prev.skills];
+              if (newCat.trim()) {
+                newSkills[index] = `${newCat.trim()}: ${newDet}`;
+              } else {
+                newSkills[index] = newDet;
+              }
+              return { ...prev, skills: newSkills };
+            });
+          };
+
+          return (
+            <div key={index} className="dynamic-item">
+              <div className="dynamic-item-header">
+                <span style={{ fontWeight: 600 }}>Skill Group {index + 1}</span>
+                <button className="remove-btn" onClick={() => removeArrayItem('skills', index)}>
+                  <Trash2 size={16} />
+                </button>
+              </div>
+              <div className="input-row">
+                <div className="input-col">
+                  <label>Category Title (Optional)</label>
+                  <input 
+                    type="text" 
+                    value={category} 
+                    onChange={(e) => updateSkill(e.target.value, details)} 
+                    placeholder="e.g. Frontend Web Tech"
+                  />
+                </div>
+              </div>
+              <div className="input-col">
+                <label>Skills / Technologies</label>
+                <input 
+                  type="text" 
+                  value={details} 
+                  onChange={(e) => updateSkill(category, e.target.value)} 
+                  placeholder="e.g. HTML5, CSS3, JavaScript (ES6+), React.js"
+                />
+              </div>
+            </div>
+          );
+        })}
+        <button 
+          className="add-btn" 
+          onClick={() => addArrayItem('skills', '')}
+        >
+          <Plus size={18} /> Add Skill Category
+        </button>
       </div>
     </div>
   );

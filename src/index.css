@@ -389,6 +389,170 @@ input:focus, textarea:focus {
   align-items: baseline;
 }
 
+/* Template: Classic (Executive Blue) */
+.template-classic {
+  padding: 40px 48px;
+  background: white;
+  min-height: 1131px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #1e293b;
+}
+
+.classic-header {
+  margin-bottom: 20px;
+}
+
+.classic-name {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.classic-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 12px;
+}
+
+.classic-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #475569;
+  margin-bottom: 14px;
+}
+
+.classic-contact .contact-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.classic-divider {
+  height: 2px;
+  background-color: #1d4ed8;
+  width: 100%;
+}
+
+.classic-section {
+  margin-bottom: 20px;
+}
+
+.classic-section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #cbd5e1;
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+}
+
+.classic-summary {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #334155;
+}
+
+.classic-skills-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.classic-skill-row {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  display: flex;
+  gap: 6px;
+}
+
+.classic-skill-row .skill-category {
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+.classic-skill-row .skill-items {
+  color: #334155;
+}
+
+.classic-skill-tag {
+  display: inline-block;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  color: #1e293b;
+}
+
+.classic-item {
+  margin-bottom: 16px;
+}
+
+.classic-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
+}
+
+.classic-item-bold {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #0f172a;
+}
+
+.classic-item-date {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.classic-item-italic {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.classic-item-subdate {
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+.classic-item-subtitle {
+  font-size: 0.92rem;
+  color: #2563eb;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.classic-tech-stack {
+  font-size: 0.88rem;
+  color: #2563eb;
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+.classic-bullets {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #334155;
+  margin-top: 4px;
+}
+
+
 /* Auth Modal Styles */
 .modal-overlay {
   position: fixed;
