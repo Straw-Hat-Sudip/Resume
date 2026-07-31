@@ -26,11 +26,15 @@ const AuthModal = ({ isOpen, onClose }) => {
       } else {
         const { error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
-        setMessage('Sign up successful! You can now log in.');
+        setMessage('Verification link was sent to your email! Please check your inbox and confirm before signing in.');
         setIsLogin(true); // Switch to login view
       }
     } catch (err) {
-      setError(err.message || 'An error occurred during authentication.');
+      let errMsg = err.message || 'An error occurred during authentication.';
+      if (errMsg.toLowerCase().includes('email not confirmed')) {
+        errMsg = 'Verification link was sent to your email, but not confirmed yet.';
+      }
+      setError(errMsg);
     } finally {
       setLoading(false);
     }

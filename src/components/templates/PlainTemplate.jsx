@@ -59,26 +59,34 @@ const PlainTemplate = ({ data, templateRef }) => {
           </div>
         )}
 
-        {data.skills.length > 0 && data.skills[0] !== "" && (
+        {data.skills && data.skills.some(s => {
+          const obj = typeof s === 'object' && s !== null ? s : (typeof s === 'string' && s.includes(':') ? { category: s.split(':')[0], details: s.split(':')[1] } : { category: '', details: s });
+          return (obj.category && obj.category.trim() !== '') || (obj.details && obj.details.trim() !== '');
+        }) && (
           <div>
             <h2>Skills</h2>
             {data.skills.map((skill, index) => {
-              if (typeof skill === 'string' && skill.includes(':')) {
-                const colonIdx = skill.indexOf(':');
-                const category = skill.substring(0, colonIdx).trim();
-                const items = skill.substring(colonIdx + 1).trim();
-                return (
-                  <div key={index} className="item" style={{ marginBottom: '6px' }}>
-                    <p style={{ margin: 0 }}>
-                      <strong>• {category}: </strong>
-                      <span>{items}</span>
-                    </p>
-                  </div>
-                );
+              let category = '';
+              let details = '';
+              if (typeof skill === 'object' && skill !== null) {
+                category = (skill.category || '').trim();
+                details = (skill.details || '').trim();
+              } else if (typeof skill === 'string') {
+                if (skill.includes(':')) {
+                  const colonIdx = skill.indexOf(':');
+                  category = skill.substring(0, colonIdx).trim();
+                  details = skill.substring(colonIdx + 1).trim();
+                } else {
+                  details = skill.trim();
+                }
               }
+              if (!category && !details) return null;
               return (
                 <div key={index} className="item" style={{ marginBottom: '6px' }}>
-                  <p style={{ margin: 0 }}>• {skill}</p>
+                  <p style={{ margin: 0 }}>
+                    {category ? <strong>• {category}: </strong> : <strong>• </strong>}
+                    <span>{details}</span>
+                  </p>
                 </div>
               );
             })}

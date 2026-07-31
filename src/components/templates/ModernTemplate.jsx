@@ -61,13 +61,41 @@ const ModernTemplate = ({ data, templateRef }) => {
             </div>
           )}
 
-          {data.skills.length > 0 && data.skills[0] !== "" && (
+          {data.skills && data.skills.some(s => {
+            const obj = typeof s === 'object' && s !== null ? s : (typeof s === 'string' && s.includes(':') ? { category: s.split(':')[0], details: s.split(':')[1] } : { category: '', details: s });
+            return (obj.category && obj.category.trim() !== '') || (obj.details && obj.details.trim() !== '');
+          }) && (
             <div>
               <h2>Skills</h2>
               <div style={{ marginTop: '12px' }}>
-                {data.skills.map((skill, index) => (
-                  <span key={index} className="skill-item">{skill}</span>
-                ))}
+                {data.skills.map((skill, index) => {
+                  let category = '';
+                  let details = '';
+                  if (typeof skill === 'object' && skill !== null) {
+                    category = (skill.category || '').trim();
+                    details = (skill.details || '').trim();
+                  } else if (typeof skill === 'string') {
+                    if (skill.includes(':')) {
+                      const colonIdx = skill.indexOf(':');
+                      category = skill.substring(0, colonIdx).trim();
+                      details = skill.substring(colonIdx + 1).trim();
+                    } else {
+                      details = skill.trim();
+                    }
+                  }
+                  if (!category && !details) return null;
+                  if (category) {
+                    return (
+                      <div key={index} style={{ marginBottom: '10px' }}>
+                        <div style={{ fontWeight: 600, fontSize: '0.88rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{category}</div>
+                        <div style={{ fontSize: '0.85rem', opacity: 0.9 }}>{details}</div>
+                      </div>
+                    );
+                  }
+                  return (
+                    <span key={index} className="skill-item">{details}</span>
+                  );
+                })}
               </div>
             </div>
           )}

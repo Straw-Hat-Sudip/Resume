@@ -29,50 +29,18 @@ function App() {
 
   const [resumeData, setResumeData] = useState({
     personal: {
-      fullName: 'SUDIP PATRA',
-      jobTitle: 'Electronics & Communication Engineering Undergraduate | MERN Stack & Frontend Developer',
-      email: 'sudippatra@email.com',
-      phone: '+91 98765 43210',
-      address: 'Singur, West Bengal, India',
-      linkedin: 'linkedin.com/in/sudip-patra-2b4366318',
-      github: 'github.com/sudippatra',
-      summary: 'Passionate and solution-oriented Electronics & Communication Engineering undergraduate with expertise in Frontend Development and the MERN Stack. Proficient in JavaScript, C, and Python, with hands-on experience building modern, responsive, and user-centric web applications. Adept at leveraging technical concepts to build innovative software solutions and eager to contribute to dynamic software engineering teams.'
+      fullName: '',
+      jobTitle: '',
+      email: '',
+      phone: '',
+      address: '',
+      linkedin: '',
+      github: '',
+      summary: ''
     },
-    experience: [
-      {
-        company: 'MERN Stack E-Commerce / Full-Stack Web Application',
-        title: 'Full-Stack Developer Project',
-        startDate: '2024',
-        endDate: '',
-        technologies: 'React.js, Node.js, Express.js, MongoDB, JWT, CSS3',
-        description: '• Engineered a full-stack web application featuring user authentication, protected routes, dynamic data fetching, and state management.\n• Designed RESTful APIs using Express.js and Node.js for seamless interaction between client frontend and MongoDB database.\n• Implemented responsive, user-centric interfaces ensuring seamless cross-device display and optimal page loading speeds.'
-      },
-      {
-        company: 'Interactive Frontend Dashboard Application',
-        title: 'Frontend Developer Project',
-        startDate: '2024',
-        endDate: '',
-        technologies: 'React.js, JavaScript (ES6+), HTML5, CSS3, REST APIs',
-        description: '• Developed an interactive frontend web dashboard providing real-time data display and intuitive user controls.\n• Utilized reusable React components, modular layout architecture, and state hooks (`useState`, `useEffect`) for effective UI state management.\n• Integrated third-party APIs to process dynamic inputs and render clean visual analytics.'
-      }
-    ],
-    education: [
-      {
-        school: 'Techno India College Of Technology',
-        degree: 'Bachelor of Technology (B.Tech) in Electronics & Communication Engineering',
-        startDate: 'Expected 2026',
-        endDate: '',
-        location: 'West Bengal, India',
-        description: '• Relevant Coursework: Data Structures & Algorithms, Object-Oriented Programming (OOP), Digital Electronics, Microprocessors & Microcontrollers, Network Analysis.'
-      }
-    ],
-    skills: [
-      'Frontend Web Tech: HTML5, CSS3, JavaScript (ES6+), React.js, Redux, Bootstrap, Responsive Web Design',
-      'Backend & Databases: Node.js, Express.js, MongoDB, RESTful APIs, JSON',
-      'Programming Languages: C, Python, JavaScript',
-      'Developer Tools & VCS: Git, GitHub, VS Code, Postman, Linux / Bash Basics',
-      'Core Engineering Concepts: Data Structures & Algorithms, Object-Oriented Programming, Microprocessors, Computer Networks'
-    ]
+    experience: [],
+    education: [],
+    skills: []
   });
 
   return (

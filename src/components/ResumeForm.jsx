@@ -262,21 +262,27 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
         <h3>Skills</h3>
         {resumeData.skills.map((skill, index) => {
           let category = '';
-          let details = skill;
-          if (typeof skill === 'string' && skill.includes(':')) {
-            const colonIdx = skill.indexOf(':');
-            category = skill.substring(0, colonIdx).trim();
-            details = skill.substring(colonIdx + 1).trim();
+          let details = '';
+          if (typeof skill === 'object' && skill !== null) {
+            category = skill.category || '';
+            details = skill.details || '';
+          } else if (typeof skill === 'string') {
+            if (skill.includes(':')) {
+              const colonIdx = skill.indexOf(':');
+              category = skill.substring(0, colonIdx).trim();
+              details = skill.substring(colonIdx + 1).trim();
+            } else {
+              details = skill;
+            }
           }
 
-          const updateSkill = (newCat, newDet) => {
+          const updateSkillField = (field, value) => {
             setResumeData(prev => {
               const newSkills = [...prev.skills];
-              if (newCat.trim()) {
-                newSkills[index] = `${newCat.trim()}: ${newDet}`;
-              } else {
-                newSkills[index] = newDet;
-              }
+              newSkills[index] = {
+                category: field === 'category' ? value : category,
+                details: field === 'details' ? value : details
+              };
               return { ...prev, skills: newSkills };
             });
           };
@@ -295,7 +301,7 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
                   <input 
                     type="text" 
                     value={category} 
-                    onChange={(e) => updateSkill(e.target.value, details)} 
+                    onChange={(e) => updateSkillField('category', e.target.value)} 
                     placeholder="e.g. Frontend Web Tech"
                   />
                 </div>
@@ -305,7 +311,7 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
                 <input 
                   type="text" 
                   value={details} 
-                  onChange={(e) => updateSkill(category, e.target.value)} 
+                  onChange={(e) => updateSkillField('details', e.target.value)} 
                   placeholder="e.g. HTML5, CSS3, JavaScript (ES6+), React.js"
                 />
               </div>
@@ -314,7 +320,7 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
         })}
         <button 
           className="add-btn" 
-          onClick={() => addArrayItem('skills', '')}
+          onClick={() => addArrayItem('skills', { category: '', details: '' })}
         >
           <Plus size={18} /> Add Skill Category
         </button>

@@ -76,26 +76,34 @@ const ClassicTemplate = ({ data, templateRef }) => {
         )}
 
         {/* Technical Skills */}
-        {skills && skills.length > 0 && skills[0] !== "" && (
+        {skills && skills.some(s => {
+          const obj = typeof s === 'object' && s !== null ? s : (typeof s === 'string' && s.includes(':') ? { category: s.split(':')[0], details: s.split(':')[1] } : { category: '', details: s });
+          return (obj.category && obj.category.trim() !== '') || (obj.details && obj.details.trim() !== '');
+        }) && (
           <section className="classic-section">
             <h2 className="classic-section-title">TECHNICAL SKILLS</h2>
             <div className="classic-skills-container">
               {skills.map((skill, index) => {
-                if (typeof skill === 'string' && skill.includes(':')) {
-                  const colonIdx = skill.indexOf(':');
-                  const category = skill.substring(0, colonIdx).trim();
-                  const items = skill.substring(colonIdx + 1).trim();
-                  return (
-                    <div key={index} className="classic-skill-row">
-                      <span className="skill-category">{category}:</span>
-                      <span className="skill-items">{items}</span>
-                    </div>
-                  );
+                let category = '';
+                let details = '';
+                if (typeof skill === 'object' && skill !== null) {
+                  category = (skill.category || '').trim();
+                  details = (skill.details || '').trim();
+                } else if (typeof skill === 'string') {
+                  if (skill.includes(':')) {
+                    const colonIdx = skill.indexOf(':');
+                    category = skill.substring(0, colonIdx).trim();
+                    details = skill.substring(colonIdx + 1).trim();
+                  } else {
+                    details = skill.trim();
+                  }
                 }
+                if (!category && !details) return null;
                 return (
-                  <span key={index} className="classic-skill-tag">
-                    {skill}
-                  </span>
+                  <div key={index} className="classic-skill-row">
+                    {category && <span className="skill-category">{category}:</span>}
+                    {details && <span className="skill-items">{details}</span>}
+                  </div>
                 );
               })}
             </div>
