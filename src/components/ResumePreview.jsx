@@ -11,14 +11,15 @@ const ResumePreview = ({ resumeData, template, setTemplate, user }) => {
   const containerRef = useRef();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [scale, setScale] = useState(1);
+  const [paperHeight, setPaperHeight] = useState(1131);
 
   useEffect(() => {
     const updateScale = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.clientWidth;
         if (containerWidth < 820) {
-          // Fill available container width cleanly with 12px margin
-          const availableWidth = Math.max(containerWidth - 16, 280);
+          // Fill available container width cleanly with 16px padding
+          const availableWidth = Math.max(containerWidth - 24, 280);
           const newScale = availableWidth / 800;
           setScale(newScale);
         } else {
@@ -31,6 +32,20 @@ const ResumePreview = ({ resumeData, template, setTemplate, user }) => {
     window.addEventListener('resize', updateScale);
     return () => window.removeEventListener('resize', updateScale);
   }, []);
+
+  useEffect(() => {
+    if (resumeRef.current) {
+      const updateHeight = () => {
+        if (resumeRef.current) {
+          setPaperHeight(resumeRef.current.offsetHeight || 1131);
+        }
+      };
+      updateHeight();
+      const observer = new ResizeObserver(updateHeight);
+      observer.observe(resumeRef.current);
+      return () => observer.disconnect();
+    }
+  }, [template, resumeData]);
 
   const handleDownloadPDF = () => {
     if (!user) {
@@ -51,7 +66,7 @@ const ResumePreview = ({ resumeData, template, setTemplate, user }) => {
     html2pdf().from(element).set(opt).save();
   };
 
-  const marginBottomOffset = scale < 1 ? -Math.round(1131 * (1 - scale)) : 0;
+  const marginBottomOffset = scale < 1 ? -Math.round(paperHeight * (1 - scale)) + 40 : 0;
 
   return (
     <div className="preview-section" ref={containerRef}>
@@ -83,7 +98,7 @@ const ResumePreview = ({ resumeData, template, setTemplate, user }) => {
         </button>
       </div>
 
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', overflow: 'hidden' }}>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <div 
           style={{ 
             transform: scale < 1 ? `scale(${scale})` : 'none', 

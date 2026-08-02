@@ -128,9 +128,11 @@ input:focus, textarea:focus {
 /* Preview Section */
 .preview-section {
   width: 60%;
+  height: 100%;
   background-color: var(--bg-color);
   padding: 32px;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
