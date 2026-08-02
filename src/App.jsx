@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from './lib/supabaseClient';
 import ResumeForm from './components/ResumeForm';
 import ResumePreview from './components/ResumePreview';
-import { FileText, LogOut, Check, RotateCcw } from 'lucide-react';
+import { FileText, LogOut, Check, RotateCcw, Sparkles } from 'lucide-react';
 import './index.css';
 
 const defaultEmptyResume = {
@@ -107,61 +107,42 @@ function App() {
 
   return (
     <div className="app-container">
-      <header className="header" style={{ justifyContent: 'space-between' }}>
-        <div className="header-title">
-          <FileText size={24} />
-          Resume Builder
+      <header className="header">
+        <div className="header-brand">
+          <div className="logo-badge">
+            <FileText size={20} />
+          </div>
+          <span className="brand-title">Resume Builder</span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div className="header-controls">
           {/* Draft Auto-save Indicator */}
-          <span 
-            style={{ 
-              fontSize: '0.8rem', 
-              color: 'var(--text-muted)', 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '4px',
-              background: 'var(--secondary)',
-              padding: '4px 10px',
-              borderRadius: '12px'
-            }}
-          >
-            <Check size={14} color="var(--primary)" />
-            {saveStatus === 'Saving...' ? 'Saving...' : 'Auto-Saved'}
-          </span>
+          <div className="save-status-badge">
+            <span className={`status-dot ${saveStatus === 'Saving...' ? 'saving' : ''}`}></span>
+            <span>{saveStatus === 'Saving...' ? 'Saving draft...' : 'Auto-Saved'}</span>
+          </div>
 
           <button 
             onClick={handleResetForm}
-            title="Reset Form"
-            style={{ 
-              background: 'none', 
-              border: '1px solid var(--border)', 
-              borderRadius: 'var(--radius-sm)',
-              padding: '6px 12px',
-              color: 'var(--text-muted)', 
-              cursor: 'pointer', 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '6px',
-              fontSize: '0.85rem'
-            }}
+            className="clear-btn"
+            title="Clear form and start fresh"
           >
             <RotateCcw size={14} /> Clear Form
           </button>
 
           {user ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{user.email}</span>
+            <div className="user-profile-pill">
+              <span className="user-email">{user.email}</span>
               <button 
                 onClick={handleLogout} 
-                style={{ background: 'none', border: 'none', color: 'var(--text-main)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                className="logout-btn"
+                title="Logout"
               >
-                <LogOut size={16} /> Logout
+                <LogOut size={15} /> Logout
               </button>
             </div>
           ) : (
-            <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Use the builder for free!</span>
+            <span className="free-badge">✨ Free Resume Builder</span>
           )}
         </div>
       </header>

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { X } from 'lucide-react';
+import { X, Mail, Lock, Eye, EyeOff, AlertCircle, CheckCircle, Sparkles } from 'lucide-react';
 
 const AuthModal = ({ isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
@@ -46,53 +47,114 @@ const AuthModal = ({ isOpen, onClose }) => {
     }
   };
 
+  const switchMode = (loginMode) => {
+    setIsLogin(loginMode);
+    setError(null);
+    setMessage(null);
+  };
+
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-        <button className="modal-close" onClick={onClose}>
-          <X size={20} />
+      <div className="modal-content auth-modal">
+        <button className="modal-close" onClick={onClose} aria-label="Close modal">
+          <X size={18} />
         </button>
-        <h2 className="modal-title">{isLogin ? 'Sign In to Download' : 'Create an Account'}</h2>
-        <p className="modal-subtitle">
-          {isLogin 
-            ? 'You need to be signed in to download your resume.' 
-            : 'Sign up for free to download and save your resumes.'}
-        </p>
 
-        {error && <div className="modal-alert error">{error}</div>}
-        {message && <div className="modal-alert success">{message}</div>}
+        <div className="auth-header">
+          <div className="auth-icon-badge">
+            <Sparkles size={22} />
+          </div>
+          <h2 className="modal-title">{isLogin ? 'Welcome Back' : 'Create Account'}</h2>
+          <p className="modal-subtitle">
+            {isLogin 
+              ? 'Sign in to generate & download your professional resume.' 
+              : 'Create a free account to save & download your resumes.'}
+          </p>
+        </div>
+
+        {/* Mode Toggle Tabs */}
+        <div className="auth-tabs">
+          <button 
+            type="button" 
+            className={`auth-tab ${isLogin ? 'active' : ''}`}
+            onClick={() => switchMode(true)}
+          >
+            Sign In
+          </button>
+          <button 
+            type="button" 
+            className={`auth-tab ${!isLogin ? 'active' : ''}`}
+            onClick={() => switchMode(false)}
+          >
+            Sign Up
+          </button>
+        </div>
+
+        {error && (
+          <div className="modal-alert error">
+            <AlertCircle size={18} />
+            <span>{error}</span>
+          </div>
+        )}
+        {message && (
+          <div className="modal-alert success">
+            <CheckCircle size={18} />
+            <span>{message}</span>
+          </div>
+        )}
 
         <form onSubmit={handleAuth} className="modal-form">
           <div className="form-group-modal">
-            <label>Email</label>
-            <input 
-              type="email" 
-              required 
-              value={email} 
-              onChange={e => setEmail(e.target.value)} 
-              placeholder="you@example.com"
-            />
+            <label>Email Address</label>
+            <div className="input-with-icon">
+              <Mail size={18} className="field-icon" />
+              <input 
+                type="email" 
+                required 
+                value={email} 
+                onChange={e => setEmail(e.target.value)} 
+                placeholder="name@example.com"
+              />
+            </div>
           </div>
+
           <div className="form-group-modal">
             <label>Password</label>
-            <input 
-              type="password" 
-              required 
-              value={password} 
-              onChange={e => setPassword(e.target.value)} 
-              placeholder="••••••••"
-            />
+            <div className="input-with-icon">
+              <Lock size={18} className="field-icon" />
+              <input 
+                type={showPassword ? 'text' : 'password'} 
+                required 
+                value={password} 
+                onChange={e => setPassword(e.target.value)} 
+                placeholder="••••••••"
+                minLength={6}
+              />
+              <button 
+                type="button" 
+                className="toggle-password" 
+                onClick={() => setShowPassword(!showPassword)}
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
-          <button type="submit" className="btn-primary full-width" disabled={loading}>
-            {loading ? 'Processing...' : (isLogin ? 'Sign In' : 'Sign Up')}
+
+          <button type="submit" className="btn-primary full-width auth-submit-btn " disabled={loading}>
+            {loading ? (
+              <span className="btn-spinner">Processing...</span>
+            ) : (
+              <span>{isLogin ? 'Sign In & Continue' : 'Create Free Account'}</span>
+            )}
           </button>
         </form>
 
         <div className="modal-footer">
           {isLogin ? (
-            <p>Don't have an account? <button type="button" className="text-btn" onClick={() => { setIsLogin(false); setError(null); setMessage(null); }}>Sign up</button></p>
+            <p>Don't have an account? <button type="button" className="text-btn" onClick={() => switchMode(false)}>Create one for free</button></p>
           ) : (
-            <p>Already have an account? <button type="button" className="text-btn" onClick={() => { setIsLogin(true); setError(null); setMessage(null); }}>Sign in</button></p>
+            <p>Already have an account? <button type="button" className="text-btn" onClick={() => switchMode(true)}>Sign in instead</button></p>
           )}
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, User, Briefcase, GraduationCap, Wrench } from 'lucide-react';
 
 const ResumeForm = ({ resumeData, setResumeData }) => {
   const handleChange = (section, field, value) => {
@@ -37,7 +37,10 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
   return (
     <div className="form-section">
       <div className="form-group">
-        <h3>Personal Details</h3>
+        <h3>
+          <span className="section-icon"><User size={18} /></span>
+          Personal Details
+        </h3>
         <div className="input-row">
           <div className="input-col">
             <label>Full Name</label>
@@ -121,13 +124,16 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
       </div>
 
       <div className="form-group">
-        <h3>Projects</h3>
+        <h3>
+          <span className="section-icon"><Briefcase size={18} /></span>
+          Projects
+        </h3>
         {resumeData.experience.map((exp, index) => (
           <div key={index} className="dynamic-item">
             <div className="dynamic-item-header">
               <span style={{fontWeight: 600}}>Project {index + 1}</span>
               <button className="remove-btn" onClick={() => removeArrayItem('experience', index)}>
-                <Trash2 size={16} />
+                <Trash2 size={15} /> Remove
               </button>
             </div>
             <div className="input-row">
@@ -199,13 +205,16 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
       </div>
 
       <div className="form-group">
-        <h3>Education</h3>
+        <h3>
+          <span className="section-icon"><GraduationCap size={18} /></span>
+          Education
+        </h3>
         {resumeData.education.map((edu, index) => (
           <div key={index} className="dynamic-item">
             <div className="dynamic-item-header">
               <span style={{fontWeight: 600}}>Education {index + 1}</span>
               <button className="remove-btn" onClick={() => removeArrayItem('education', index)}>
-                <Trash2 size={16} />
+                <Trash2 size={15} /> Remove
               </button>
             </div>
             <div className="input-row">
@@ -259,7 +268,10 @@ const ResumeForm = ({ resumeData, setResumeData }) => {
       </div>
 
       <div className="form-group">
-        <h3>Skills</h3>
+        <h3>
+          <span className="section-icon"><Wrench size={18} /></span>
+          Skills
+        </h3>
         {resumeData.skills.map((skill, index) => {
           let category = '';
           let details = '';
